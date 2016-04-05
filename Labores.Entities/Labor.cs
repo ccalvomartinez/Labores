@@ -10,6 +10,6 @@ namespace Labores.Entities
     {
         private int id;
         public List<Material> Materiales { get; set; }
-        public System.Xml.XmlDocument Instrucciones { get; set; }
+        public string Instrucciones { get; set; }
     }
 }

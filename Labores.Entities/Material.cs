@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Labores.Entities
 {
-    class Material
+   public class Material
     {
+       public string Nombre;
     }
 }

@@ -40,6 +40,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -98,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XMLContextTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -106,6 +108,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Labores.Context\Labores.Context.csproj">
+      <Project>{64E7703C-42A2-4F41-BE64-9D9F83C50F02}</Project>
+      <Name>Labores.Context</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Labores.Entities\Labores.Entities.csproj">
+      <Project>{F632623E-A64E-492B-A569-6A770FFA6C40}</Project>
+      <Name>Labores.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Labores.Web\Labores.Web.csproj">
       <Project>{D626B9DA-ADF6-467D-A1BC-33978461E699}</Project>
       <Name>Labores.Web</Name>
