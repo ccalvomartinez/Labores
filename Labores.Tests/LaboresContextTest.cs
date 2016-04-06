@@ -1,17 +1,19 @@
-﻿using Labores.Context;
+﻿using Labores.Context.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Labores.Tests
 {
-    
-    
+
+
     /// <summary>
-    ///Se trata de una clase de prueba para XMLContextTest y se pretende que
-    ///contenga todas las pruebas unitarias XMLContextTest.
+    ///Se trata de una clase de prueba para LaboresContextTest y se pretende que
+    ///contenga todas las pruebas unitarias LaboresContextTest.
     ///</summary>
     [TestClass()]
-    public class XMLContextTest
+    public class LaboresContextTest
     {
 
 
@@ -65,21 +67,25 @@ namespace Labores.Tests
 
 
         /// <summary>
-        ///Una prueba de SaveChanges
+        ///Una prueba de Constructor LaboresContext
         ///</summary>
         [TestMethod()]
-        public void SaveChangesTest()
+        public void LaboresContextConstructorTest()
         {
-            string contextString = @"D:\Labores.xml"; 
-            XMLContext target = new XMLContext(contextString);
-            Entities.Labor labor = new Entities.Labor { Instrucciones = "Haz punto" };
-            labor.Materiales.Add(new Entities.Material { Nombre = "Lana" });
-            target.Labores.Add(labor);
-            target.SaveChanges();
-            XMLContext result = new XMLContext(contextString);
+            using (LaboresContext target = new LaboresContext())
+            {
+                Labores.Entities.Labor labor = new Labores.Entities.Labor { Instrucciones = "Tejer" };
+                labor.Materiales = new List<Entities.Material>();
+                labor.Materiales.Add(new Labores.Entities.Material { Nombre = "Lana" });
+                target.Labores.Add(labor);
+                target.SaveChanges();
+            }
+            using (LaboresContext result = new LaboresContext())
+            {
+                Assert.AreEqual(0, result.Labores.Count());
+                Assert.AreEqual("Tejer", result.Labores.First().Instrucciones);
+            }
 
-            Assert.AreEqual(1, result.Labores.Count);
-            Assert.AreEqual("Haz punto", result.Labores[0].Instrucciones);
         }
     }
 }
