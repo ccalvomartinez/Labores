@@ -11,6 +11,7 @@ namespace Labores.Entities
     {
         [Key]
         public int id { get; set; }
+        public string Título { get; set; }
         public virtual List<Material> Materiales
         {
             get;

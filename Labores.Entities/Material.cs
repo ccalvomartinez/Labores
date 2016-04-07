@@ -10,6 +10,8 @@ namespace Labores.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Nombre;
+        [Required]
+        public string Nombre { get; set; }
+       
     }
 }

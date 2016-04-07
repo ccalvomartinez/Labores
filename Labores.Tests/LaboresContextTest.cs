@@ -70,20 +70,25 @@ namespace Labores.Tests
         ///Una prueba de Constructor LaboresContext
         ///</summary>
         [TestMethod()]
-        public void LaboresContextConstructorTest()
+        public void LaboresContextAddLaborTest()
         {
+            int laboresCount;
+            Labores.Entities.Labor labor = new Labores.Entities.Labor { Instrucciones = "Tejer" };
+            labor.Materiales = new List<Entities.Material>();
+            labor.Materiales.Add(new Labores.Entities.Material { Nombre = "Lana" });
             using (LaboresContext target = new LaboresContext())
             {
-                Labores.Entities.Labor labor = new Labores.Entities.Labor { Instrucciones = "Tejer" };
-                labor.Materiales = new List<Entities.Material>();
-                labor.Materiales.Add(new Labores.Entities.Material { Nombre = "Lana" });
                 target.Labores.Add(labor);
                 target.SaveChanges();
+                 laboresCount = target.Labores.Count();
             }
             using (LaboresContext result = new LaboresContext())
             {
-                Assert.AreEqual(0, result.Labores.Count());
-                Assert.AreEqual("Tejer", result.Labores.First().Instrucciones);
+                Assert.AreEqual(laboresCount, result.Labores.Count());
+                var laborResult=result.Labores.Find(labor.id);
+                Assert.AreEqual("Tejer", laborResult.Instrucciones);
+                Assert.AreEqual(1, laborResult.Materiales.Count());
+                Assert.AreEqual("Lana", laborResult.Materiales.First().Nombre);
             }
 
         }

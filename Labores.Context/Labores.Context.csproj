@@ -45,6 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201604070929186_CambioNombreTaablas.cs" />
+    <Compile Include="Migrations\201604070929186_CambioNombreTaablas.Designer.cs">
+      <DependentUpon>201604070929186_CambioNombreTaablas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604071015137_NuevosCampos.cs" />
+    <Compile Include="Migrations\201604071015137_NuevosCampos.Designer.cs">
+      <DependentUpon>201604071015137_NuevosCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604071019320_MaterialNombreRequerido.cs" />
+    <Compile Include="Migrations\201604071019320_MaterialNombreRequerido.Designer.cs">
+      <DependentUpon>201604071019320_MaterialNombreRequerido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\LaboresContext.cs" />
     <Compile Include="Models\Mappings\LaborMap.cs" />
     <Compile Include="Models\Mappings\MaterialMap.cs" />
@@ -57,8 +70,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604070929186_CambioNombreTaablas.resx">
+      <DependentUpon>201604070929186_CambioNombreTaablas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604071015137_NuevosCampos.resx">
+      <DependentUpon>201604071015137_NuevosCampos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604071019320_MaterialNombreRequerido.resx">
+      <DependentUpon>201604071019320_MaterialNombreRequerido.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
