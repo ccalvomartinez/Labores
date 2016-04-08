@@ -60,12 +60,18 @@ namespace Labores.Web.Controllers
             return View(labor);
         }
 
+      
+        public ActionResult AñadirMaterial(int cuenta) {
+            return PartialView("EditorTemplates/Material",new Material());
+        }
+
         //
         // GET: /Home/Edit/5
 
         public ActionResult Edit(int id = 0)
         {
             Labor labor = db.Labores.Find(id);
+            db.Entry(labor).Collection(lb => lb.Materiales).Load();
             if (labor == null)
             {
                 return HttpNotFound();

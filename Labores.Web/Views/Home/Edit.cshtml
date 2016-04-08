@@ -30,7 +30,17 @@
             @Html.EditorFor(model => model.Instrucciones)
             @Html.ValidationMessageFor(model => model.Instrucciones)
         </div>
-
+                   <div class="editor-label">
+            @Html.LabelFor(model => model.Materiales)
+        </div>
+        <div class="editor-field">
+            @for (int i = 0; i < Model.Materiales.Count;i++ )
+            { 
+            @Html.EditorFor(x=>Model.Materiales[i])
+            }
+             <div id="nuevosMateriales"></div>   
+                  <input id="addMaterial" type="button" value="AñadirMaterial" />
+        </div>
         <p>
             <input type="submit" value="Save" />
         </p>
@@ -43,4 +53,20 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("#addMaterial").on('click', function () {
+        var cuentaMateriales=@Model.Materiales.Count;
+
+        $.ajax({
+            async: false,
+            url: '/Home/AñadirMaterial',
+            data:{cuenta:cuentaMateriales}
+        }).success(function (partialView) {
+
+            $('#nuevosMateriales').append(partialView);
+
+        });
+    });
+
+</script>
 }

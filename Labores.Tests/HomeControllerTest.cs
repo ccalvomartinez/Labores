@@ -71,9 +71,6 @@ namespace Labores.Tests
         /// <summary>
         ///Una prueba de Index
         ///</summary>
-        // TODO: Asegúrese de que el atributo UrlToTest especifica una dirección URL de una página ASP.NET (por ejemplo, 
-        // http://.../Default.aspx). Esto es necesario para ejecutar la prueba unitaria en el servidor web,
-        // si va a probar una página, un servicio web o un servicio WCF.
         [TestMethod()]
         public void IndexTest()
         {
@@ -83,9 +80,10 @@ namespace Labores.Tests
             actual = target.Index();
 
             Assert.AreEqual(typeof(ViewResult), actual.GetType());
+
             var actualView = (ViewResult)actual;
 
-            Assert.IsTrue(typeof(IEnumerable<Labores.Entities.Labor>).IsAssignableFrom(actualView.Model.GetType()));
+            Assert.IsTrue(typeof(IEnumerable<Labores.Entities.Labor>).IsAssignableFrom(actualView.Model.GetType()),"Tipo de modelo incorrecto");
         }
 
         /// <summary>
