@@ -48,7 +48,7 @@ namespace Labores.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Labor labor)
+        public ActionResult Create(Labor labor,Object nuevosMateriales)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,8 @@ namespace Labores.Web.Controllers
         }
 
       
-        public ActionResult AñadirMaterial(int cuenta) {
+        public ActionResult AñadirMaterial() {
+            ViewBag.Name = "nuevosMateriales";
             return PartialView("EditorTemplates/Material",new Material());
         }
 

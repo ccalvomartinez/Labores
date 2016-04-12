@@ -56,12 +56,11 @@
     @Scripts.Render("~/bundles/jqueryval")
 <script>
     $("#addMaterial").on('click', function () {
-        var cuentaMateriales=@Model.Materiales.Count;
+  
 
         $.ajax({
             async: false,
-            url: '/Home/AñadirMaterial',
-            data:{cuenta:cuentaMateriales}
+            url: '/Home/AñadirMaterial'
         }).success(function (partialView) {
 
             $('#nuevosMateriales').append(partialView);

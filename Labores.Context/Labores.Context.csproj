@@ -57,6 +57,10 @@
     <Compile Include="Migrations\201604071019320_MaterialNombreRequerido.Designer.cs">
       <DependentUpon>201604071019320_MaterialNombreRequerido.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604121201555_MaterialCantidad.cs" />
+    <Compile Include="Migrations\201604121201555_MaterialCantidad.Designer.cs">
+      <DependentUpon>201604121201555_MaterialCantidad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\LaboresContext.cs" />
     <Compile Include="Models\Mappings\LaborMap.cs" />
@@ -84,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604071019320_MaterialNombreRequerido.resx">
       <DependentUpon>201604071019320_MaterialNombreRequerido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604121201555_MaterialCantidad.resx">
+      <DependentUpon>201604121201555_MaterialCantidad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
