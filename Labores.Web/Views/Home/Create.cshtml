@@ -36,8 +36,8 @@
             @Html.EditorFor(model => model.Materiales)
        
         </div>
-        @Html.Partial("EditorTEmplates/Material",new Labores.Entities.Material())
-        @Html.ActionLink("Añadir Material","AñadirMaterial",null,new {id="addMaterial"})
+        <div id="nuevosMateriales"></div>   
+                  <input id="addMaterial" type="button" value="AñadirMaterial" />
         <p>
             <input type="submit" value="Create" />
         </p>
@@ -50,5 +50,20 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("#addMaterial").on('click', function () {
+  
+
+        $.ajax({
+            async: false,
+            url: '/Home/AñadirMaterial'
+        }).success(function (partialView) {
+
+            $('#nuevosMateriales').append(partialView);
+
+        });
+    });
+
+</script>
 }
 

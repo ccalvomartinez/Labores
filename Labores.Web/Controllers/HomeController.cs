@@ -52,7 +52,7 @@ namespace Labores.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Labores.Add(labor);
+                ActulizarContextState(labor);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -72,7 +72,7 @@ namespace Labores.Web.Controllers
         public ActionResult Edit(int id = 0)
         {
             Labor labor = db.Labores.Find(id);
-            db.Entry(labor).Collection(lb => lb.Materiales).Load();
+            //db.Entry(labor).Collection(lb => lb.Materiales).Load();
             if (labor == null)
             {
                 return HttpNotFound();
@@ -87,13 +87,49 @@ namespace Labores.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Labor labor)
         {
-            if (ModelState.IsValid)
+            try {
+                if (ModelState.IsValid)
+                {
+                    ActulizarContextState(labor);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(labor);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+
+        private void ActulizarContextState(Labor labor)
+        {
+            ActulizarContextStateMateriales(labor);
+            if (labor.id == 0)  
+            {
+                db.Entry(labor).State = EntityState.Added;
+            }
+            else
             {
                 db.Entry(labor).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(labor);
+            
+        }
+
+        private void ActulizarContextStateMateriales(Labor labor)
+        {
+            for (int i = 0; i < labor.Materiales.Count(); i++)
+            {
+                if (labor.Materiales[i].Id == 0)
+                {
+                    db.Entry(labor.Materiales[i]).State = EntityState.Added;
+                }
+                else
+                {
+                    db.Entry(labor.Materiales[i]).State = EntityState.Modified;
+                }
+            }
         }
 
         //
