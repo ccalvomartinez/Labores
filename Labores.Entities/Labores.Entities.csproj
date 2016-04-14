@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\InstructionsAttribute.cs" />
     <Compile Include="Labor.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

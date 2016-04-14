@@ -119,8 +119,8 @@ namespace Labores.Tests
             HomeController target = new HomeController(); // TODO: Inicializar en un valor adecuado
             Labor labor = null; // TODO: Inicializar en un valor adecuado
             ActionResult expected = null; // TODO: Inicializar en un valor adecuado
-            ActionResult actual;
-            actual = target.Create(labor);
+            ActionResult actual=null;
+            //actual = target.Create(;
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Compruebe la exactitud de este método de prueba.");
         }

@@ -129,6 +129,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\CollectionEditorExtensions.cs" />
     <Compile Include="Extensions\CollectionEditorUtilities.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,6 +227,7 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Delete.cshtml" />
     <Content Include="Views\Home\EditorTemplates\Material.cshtml" />
+    <Content Include="Views\Home\DisplayTemplates\Material.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -105,7 +105,7 @@ namespace Labores.Web.Controllers
 
         private void ActulizarContextState(Labor labor)
         {
-            ActulizarContextStateMateriales(labor);
+            ActulizarContextStateMateriales(labor);  
             if (labor.id == 0)  
             {
                 db.Entry(labor).State = EntityState.Added;
@@ -114,7 +114,7 @@ namespace Labores.Web.Controllers
             {
                 db.Entry(labor).State = EntityState.Modified;
             }
-            
+          
         }
 
         private void ActulizarContextStateMateriales(Labor labor)
