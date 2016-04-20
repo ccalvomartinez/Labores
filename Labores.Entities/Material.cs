@@ -10,9 +10,8 @@ namespace Labores.Entities
     {
         [Key]
         public int Id { get; set; }
-        [Required][Labores.Web.Attributes.Instructions("Nombre del material")]
+        [Required]
+        [Labores.Web.Attributes.Instructions("Rellene el material y la cantidad necesaria")]
         public string Nombre { get; set; }
-        public int Cantidad { get; set; }
-       
     }
 }

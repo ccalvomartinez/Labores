@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forloop.HtmlHelpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,7 @@ namespace Labores.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ScriptContext.ScriptPathResolver = System.Web.Optimization.Scripts.Render;
         }
     }
 }

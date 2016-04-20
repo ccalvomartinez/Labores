@@ -14,8 +14,8 @@ namespace Labores.Context.Models
         {
             Configuration.LazyLoadingEnabled = true;
         }
-        public DbSet<Labor> Labores { get; set; }
-        public DbSet<Material> Materiales { get; set; }
+        public virtual DbSet<Labor> Labores { get; set; }
+        public virtual DbSet<Material> Materiales { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Labores.Entities;
+using Moq;
+using System.Data.Entity;
 
 namespace Labores.Tests
 {
@@ -76,21 +79,20 @@ namespace Labores.Tests
             Labores.Entities.Labor labor = new Labores.Entities.Labor { Instrucciones = "Tejer" };
             labor.Materiales = new List<Entities.Material>();
             labor.Materiales.Add(new Labores.Entities.Material { Nombre = "Lana" });
-            using (LaboresContext target = new LaboresContext())
-            {
-                target.Labores.Add(labor);
-                target.SaveChanges();
-                 laboresCount = target.Labores.Count();
-            }
-            using (LaboresContext result = new LaboresContext())
-            {
-                Assert.AreEqual(laboresCount, result.Labores.Count());
-                var laborResult=result.Labores.Find(labor.id);
-                Assert.AreEqual("Tejer", laborResult.Instrucciones);
-                Assert.AreEqual(1, laborResult.Materiales.Count());
-                Assert.AreEqual("Lana", laborResult.Materiales.First().Nombre);
-            }
 
+            Mock<DbSet<Labor>> LaboresSet = new Mock<DbSet<Labor>>();
+            Mock<DbSet<Material>> MaterialSet = new Mock<DbSet<Material>>();
+            Mock<LaboresContext> context = new Mock<LaboresContext>();
+          
+            context.Setup(c => c.Labores).Returns(LaboresSet.Object);
+            context.Setup(c => c.Materiales).Returns(MaterialSet.Object);
+            context.Setup(c => c.Set<Labor>()).Returns(LaboresSet.Object);
+            
+            context.Object.Labores.Add(labor);
+            context.Object.SaveChanges();
+            laboresCount = context.Object.Labores.Count();
+
+            LaboresSet.Verify(m => m.Add(It.IsAny<Labor>()), Times.Once);
         }
     }
 }

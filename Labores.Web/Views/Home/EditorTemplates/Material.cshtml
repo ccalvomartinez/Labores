@@ -5,13 +5,9 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="editor-label">
-            @Html.LabelFor(model => Model.Nombre)
-      
             @Html.EditorFor(model => model.Nombre)
+            @Html.InstructionsFor("Nombre")
             @Html.ValidationMessageFor(model => model.Nombre)
-
-              @Html.EditorFor(model => model.Cantidad)
-            @Html.ValidationMessageFor(model => model.Cantidad)
         </div>
 }
  

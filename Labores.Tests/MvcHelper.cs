@@ -75,9 +75,29 @@ namespace Labores.Tests
 
         public static HtmlHelper<TModel> GetHtmlHelper<TModel>(ViewDataDictionary<TModel> viewData)
         {
+            Mock<HttpContextBase> context = new Mock<HttpContextBase>();
+            Mock<HttpRequestBase> request = new Mock<HttpRequestBase>();
+            Mock<HttpResponseBase> response = new Mock<HttpResponseBase>();
+            StringBuilder output = new StringBuilder();
+
+            response.Setup(x => x.Write(It.IsAny<string>())).Callback<string>(s => output.Append(s));
+
+            var items = new Hashtable();
+
+            context.Setup(x => x.Items).Returns(items);
+            context.Setup(x => x.Request).Returns(request.Object);
+            context.Setup(x => x.Response).Returns(response.Object);
+
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            var controllerContext = new ControllerContext(requestContext, new Mock<Controller>().Object);
+
             Mock<ViewContext> mockViewContext = new Mock<ViewContext>() { CallBase = true };
             mockViewContext.Setup(c => c.ViewData).Returns(viewData);
-            mockViewContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
+            mockViewContext.Setup(c => c.Writer).Returns(new StringWriter());
+            mockViewContext.Setup(c=> c.TempData).Returns(new TempDataDictionary());
+            mockViewContext.Setup(c => c.View).Returns(new Mock<IView>().Object);
+            mockViewContext.Setup(c => c.HttpContext).Returns(context.Object);
+            //mockViewContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             IViewDataContainer container = GetViewDataContainer(viewData);
             return new HtmlHelper<TModel>(mockViewContext.Object, container);
         }

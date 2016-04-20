@@ -7,46 +7,70 @@ using System.Web;
 using System.Web.Mvc;
 using Labores.Web.Attributes;
 using System.Text;
-
+using Forloop.HtmlHelpers;
 namespace Labores.Web.Extensions
 {
     public static class HtmlHelperExtensions
     {
-        public static MvcHtmlString InstructionsFor<TModel>(this HtmlHelper<TModel> html, string Property) 
+        public static MvcHtmlString InstructionsFor<TModel>(this HtmlHelper<TModel> html, string propertyName)
         {
-            PropertyInfo property = html.ViewData.ModelMetadata.ModelType.GetProperty(Property);
-            InstructionsAttribute instructionAttData = property.GetCustomAttribute<InstructionsAttribute>();
-
+            if (html == null) {
+                throw new ArgumentNullException("HtmlHelper");
+            }
+            
+            if (string.IsNullOrEmpty(propertyName)) {
+                throw new ArgumentNullException("Property");
+            }
           
-            return new MvcHtmlString(RenderInstrucionHtml(Property));
+            PropertyInfo property = html.ViewData.ModelMetadata.ModelType.GetProperty(propertyName);
+            if (property == null) {
+                throw new ArgumentException("Property does not exist on Model", propertyName);
+            }
+
+            InstructionsAttribute instructionAtt = property.GetCustomAttribute<InstructionsAttribute>();
+            if (instructionAtt == null)
+            {
+                throw new ArgumentException("Instructions attribute does not exist on Model", propertyName);
+            }
+
+            return new MvcHtmlString(RenderInstrucionHtml(propertyName, html,instructionAtt.Instructions));
         }
 
-        private static string RenderInstrucionHtml(string Property)
+        private static string RenderInstrucionHtml<TModel>(string Property, HtmlHelper<TModel> html,string instructions)
         {
+            var guid = Guid.NewGuid().ToString("N");
+
             StringBuilder resultConstructor = new StringBuilder();
             var divInstructions = new TagBuilder("div");
             divInstructions.AddCssClass("instructions");
-            //      div.MergeAttribute("style", "display:none", true);
-            divInstructions.GenerateId("instructions" + Property);
-            var idInstructions = divInstructions.Attributes["id"];
+            divInstructions.GenerateId( string.Format("instructions_{0}_{1}", Property, guid));
+            var  idInstructions = divInstructions.Attributes["id"];
+            divInstructions.SetInnerText(instructions);
             resultConstructor.AppendLine(divInstructions.ToString());
 
             var divClickable = new TagBuilder("a");
-            divClickable.GenerateId("instructions" + Property + "Click");
+            divClickable.GenerateId(string.Format("instructions_{0}_{1}_Click", Property, guid));
             var idClickable = divClickable.Attributes["id"];
             divClickable.MergeAttribute("href", "");
             divClickable.InnerHtml = "Instructions";
             resultConstructor.AppendLine(divClickable.ToString());
 
-            var script = new TagBuilder("script");
-            StringBuilder scriptBuilder = new StringBuilder();
+            using (html.BeginScriptContext()) {
+                StringBuilder scriptConstructor = new StringBuilder();
+                scriptConstructor.AppendLine();
+                scriptConstructor.AppendLine("$(document).ready(function(){ ");
+        
+                scriptConstructor.AppendLine();
+                scriptConstructor.AppendFormat("$( '#{0}' ).dialog({{autoOpen:false}});", idInstructions);
+                scriptConstructor.AppendLine();
+                scriptConstructor.AppendFormat("$( '#{1}' ).click(function(ev) {{{2}ev.preventDefault();{2}$( '#{0}' ).dialog( 'open' );{2} }});", idInstructions, idClickable,Environment.NewLine);
 
-            scriptBuilder.AppendLine(string.Format("\\$( '\\#{0}' ).dialog({autoOpen:false});",idInstructions));
-            scriptBuilder.AppendLine(string.Format("$( '#{1}' ).click(function() {$( '#{0}' ).dialog( 'open' ); });", idInstructions, idClickable));
+                scriptConstructor.AppendLine();
+                scriptConstructor.AppendLine("});");
 
-            script.InnerHtml = scriptBuilder.ToString();
-            resultConstructor.AppendLine(script.ToString());
-
+                html.AddScriptBlock(scriptConstructor.ToString());
+            }
+         
             return resultConstructor.ToString();
         }
     }
