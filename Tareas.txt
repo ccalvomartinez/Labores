@@ -1,0 +1,5 @@
+Localizar la aplicación
+Borrar Labor
+Borrar Material
+Añadir Imágenes
+Ampliar instrucciones con notas
