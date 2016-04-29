@@ -41,11 +41,11 @@ namespace Labores.Web.Extensions
                 return mExpresion.Member.Name;
             }
         }
-        public static MvcHtmlString InstructionsFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString InstructionsForOBS<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            return InstructionsFor(html, GetPropertyName(expression));
+            return InstructionsForOBS(html, GetPropertyName(expression));
         }
-        public static MvcHtmlString InstructionsFor<TModel>(this HtmlHelper<TModel> html, string propertyName)
+        public static MvcHtmlString InstructionsForOBS<TModel>(this HtmlHelper<TModel> html, string propertyName)
         {
             if (html == null)
             {
@@ -57,7 +57,7 @@ namespace Labores.Web.Extensions
                 throw new ArgumentNullException("Property");
             }
 
-            PropertyInfo property =GetPropertyInfo( html.ViewData.ModelMetadata.ModelType,propertyName);
+            PropertyInfo property = GetPropertyInfo(html.ViewData.ModelMetadata.ModelType, propertyName);
             if (property == null)
             {
                 throw new ArgumentException("Property does not exist on Model", propertyName);
@@ -72,7 +72,7 @@ namespace Labores.Web.Extensions
             return new MvcHtmlString(RenderInstrucionHtml(propertyName, html, instructionAtt.Instructions));
         }
 
-        private static PropertyInfo GetPropertyInfo(Type modelType,string propertyName) {
+        public static PropertyInfo GetPropertyInfo(Type modelType,string propertyName) {
             PropertyInfo resutProperty=null;
             var accessPropertyString=propertyName.Split(new string[] {"."},StringSplitOptions.RemoveEmptyEntries);
             Type currentType = modelType;
@@ -83,10 +83,10 @@ namespace Labores.Web.Extensions
             return resutProperty;
         }
 
-        private static string RenderInstrucionHtml<TModel>(string Property, HtmlHelper<TModel> html, string instructions)
+        public static string RenderInstrucionHtml<TModel>(string Property, HtmlHelper<TModel> html, string instructions)
         {
             var guid = Guid.NewGuid().ToString("N");
-
+            
             StringBuilder resultConstructor = new StringBuilder();
             var divInstructions = new TagBuilder("div");
             divInstructions.AddCssClass("instructions");

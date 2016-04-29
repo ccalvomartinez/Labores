@@ -1,16 +1,18 @@
 ﻿@model Labores.Entities.Material
 @using Labores.Web.Extensions;
+
  @using (Html.BeginCollectionItem("Materiales"))
  {
         @Html.HiddenFor(model => model.Id)
 
         <div class="editor-label">
             @Html.EditorFor(model => model.Nombre)
-            @Html.InstructionsFor("Nombre")
+            @*@MyHelpers.InstructionsFor("Nombre")*@
+           
             @Html.ValidationMessageFor(model => model.Nombre)
         </div>
 }
- 
+
 
 
 

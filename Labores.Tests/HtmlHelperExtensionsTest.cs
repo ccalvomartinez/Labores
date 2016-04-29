@@ -89,7 +89,7 @@ namespace Labores.Tests
             MvcHtmlString expected = new MvcHtmlString(expectedString); // TODO: Inicializar en un valor adecuado
             MvcHtmlString actual;
             var item = html.ViewContext as ControllerContext;
-            actual = HtmlHelperExtensions.InstructionsFor<TModel>(html, property);
+            actual = html.InstructionsForOBS(property);
             Assert.IsNotNull(html.ViewContext.HttpContext.Items["ScriptContext"]);
             Assert.IsNotNull(html.ViewContext.HttpContext.Items["ScriptContexts"]);
 
@@ -101,14 +101,14 @@ namespace Labores.Tests
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         public void InstructionsForTest()
         {
             InstructionsForTestHelper<TestModel>(new TestModel(), "Property1");
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         [ExpectedException(typeof(ArgumentNullException))]
         public void InstructionsFor_Should_Throw_ArgumentNullException_PropertyNullOrEmpty()
         {
@@ -116,15 +116,15 @@ namespace Labores.Tests
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         [ExpectedException(typeof(ArgumentNullException))]
         public void InstructionsFor_Should_Throw_ArgumentNullException_HTMLHELPER_Is_Null()
         {
-            var actual = HtmlHelperExtensions.InstructionsFor<TestModel>(null, "Proeper");
+            var actual = HtmlHelperExtensions.InstructionsForOBS<TestModel>(null, "Proeper");
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         [ExpectedException(typeof(ArgumentException))]
         public void InstructionsFor_Should_Throw_ArgumentException_PropertyNotExistsOnModel()
         {
@@ -133,7 +133,7 @@ namespace Labores.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentException))]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         public void InstructionsFor_Should_Throw_ArgumentException_InstructionsAttNotExistsOnModel()
         {
             var model = new TestModel { Property1 = "Property2" };
@@ -148,7 +148,8 @@ namespace Labores.Tests
 
             MvcHtmlString actual;
             var item = html.ViewContext as ControllerContext;
-            actual = HtmlHelperExtensions.InstructionsFor(html, expression);
+            
+            actual = html.InstructionsForOBS(expression);
             Assert.IsNotNull(html.ViewContext.HttpContext.Items["ScriptContext"]);
             Assert.IsNotNull(html.ViewContext.HttpContext.Items["ScriptContexts"]);
 
@@ -162,7 +163,7 @@ namespace Labores.Tests
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         public void IntructionsForWithTestExpression()
         {
             var model = new TestModel();
@@ -170,7 +171,7 @@ namespace Labores.Tests
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         public void IntructionsForWithTestExpression_ChildProperty()
         {
             var model = new TestModel();
@@ -178,7 +179,7 @@ namespace Labores.Tests
         }
 
         [TestMethod()]
-        [TestCategory("InstructionsFor")]
+        [TestCategory("InstructionsForOBS")]
         public void IntructionsForWithTestExpression_GrandsonProperty()
         {
             var model = new TestModel();
