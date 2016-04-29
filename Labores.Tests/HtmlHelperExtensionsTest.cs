@@ -141,23 +141,24 @@ namespace Labores.Tests
             InstructionsForTestHelper<TestModel>(model, "panete");
         }
 
-        public void InstructionsForHelperWithExpresion<TModel, TValue>(TModel model, Expression<Func<TModel, TValue>> expression, 
-                                                                    string instructions,string property)
+        public void InstructionsForHelperWithExpresion<TModel, TValue>(TModel model, Expression<Func<TModel, TValue>> expression,
+                                                                    string instructions, string property)
         {
             HtmlHelper<TModel> html = MvcHelper.GetHtmlHelper<TModel>(new ViewDataDictionary<TModel>(model));
 
             MvcHtmlString actual;
             var item = html.ViewContext as ControllerContext;
-            
+
             actual = html.InstructionsForOBS(expression);
             Assert.IsNotNull(html.ViewContext.HttpContext.Items["ScriptContext"]);
             Assert.IsNotNull(html.ViewContext.HttpContext.Items["ScriptContexts"]);
 
 
             var accessPropertyString = property.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string s in accessPropertyString) {
+            foreach (string s in accessPropertyString)
+            {
                 Assert.IsTrue(actual.ToString().Contains(s), "Generated string not contains {0}", s);
-            
+
             }
             Assert.IsTrue(actual.ToString().Contains(instructions), "Generated string not contains {0}", instructions);
         }
@@ -167,7 +168,7 @@ namespace Labores.Tests
         public void IntructionsForWithTestExpression()
         {
             var model = new TestModel();
-            InstructionsForHelperWithExpresion(model, tm => tm.Property1,"Instructions content","Property1");
+            InstructionsForHelperWithExpresion(model, tm => tm.Property1, "Instructions content", "Property1");
         }
 
         [TestMethod()]
@@ -175,7 +176,7 @@ namespace Labores.Tests
         public void IntructionsForWithTestExpression_ChildProperty()
         {
             var model = new TestModel();
-            InstructionsForHelperWithExpresion(model, tm => tm.ComplexProperty.ChildProperty,"Instructions ChildProperty","ComplexProperty.ChildProperty");
+            InstructionsForHelperWithExpresion(model, tm => tm.ComplexProperty.ChildProperty, "Instructions ChildProperty", "ComplexProperty.ChildProperty");
         }
 
         [TestMethod()]
@@ -193,7 +194,7 @@ namespace Labores.Tests
         public void GetPropertyNameTest()
         {
             string expected = "Property1";
-            string actual = HtmlHelperExtensions.GetPropertyName<TestModel, string>(tm => tm.Property1);
+            string actual = ReflectionExtensions.GetPropertyName<TestModel, string>(tm => tm.Property1);
             Assert.AreEqual(expected, actual);
         }
 
@@ -202,7 +203,7 @@ namespace Labores.Tests
         [TestCategory("GetPropertyName")]
         public void GetPropertyNameTest_Method()
         {
-            string actual = HtmlHelperExtensions.GetPropertyName<TestModel, string>(tm => tm.Method());
+            string actual = ReflectionExtensions.GetPropertyName<TestModel, string>(tm => tm.Method());
         }
 
         [TestMethod]
@@ -210,7 +211,7 @@ namespace Labores.Tests
         public void GetChildPropertyNameTest()
         {
             string expected = "ComplexProperty.ChildProperty";
-            string actual = HtmlHelperExtensions.GetPropertyName<TestModel, string>(tm => tm.ComplexProperty.ChildProperty);
+            string actual = ReflectionExtensions.GetPropertyName<TestModel, string>(tm => tm.ComplexProperty.ChildProperty);
             Assert.AreEqual(expected, actual);
         }
 
@@ -219,7 +220,7 @@ namespace Labores.Tests
         public void GetGrandsonPropertyNameTest()
         {
             string expected = "ComplexProperty.ChilComplexProperty.GrandsonProperty";
-            string actual = HtmlHelperExtensions.GetPropertyName<TestModel, string>(tm => tm.ComplexProperty.ChilComplexProperty.GrandsonProperty);
+            string actual = ReflectionExtensions.GetPropertyName<TestModel, string>(tm => tm.ComplexProperty.ChilComplexProperty.GrandsonProperty);
             Assert.AreEqual(expected, actual);
         }
         #endregion
@@ -246,7 +247,7 @@ namespace Labores.Tests
 
         private class GrandsonTestModel
         {
-                [Labores.Web.Attributes.Instructions("Instructions GrandchildProperty")]
+            [Labores.Web.Attributes.Instructions("Instructions GrandchildProperty")]
             public string GrandsonProperty { get; set; }
         }
         #endregion

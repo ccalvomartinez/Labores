@@ -1,54 +1,22 @@
-﻿
-@using System.Reflection;
-@using System.Web.Mvc;
+﻿@using System.Web.Mvc;
 @using System.Web.Mvc.Html;
 @using System.Web.Mvc.Routing;
 @using System.Web.Mvc.Razor;
 @using Forloop.HtmlHelpers;
 
+@{
+    ViewBag.Title = "View1";
+}
 
-
+<h2>View1</h2>
 @functions {
     private static WebViewPage page { get { return PageContext.Page as WebViewPage; } } 
     private static System.Web.Mvc.HtmlHelper Html { get { return page.Html; } }
     private static UrlHelper Url { get { return page.Url; } }
     private static dynamic ViewBag { get { return page.ViewBag; } }
 }
-
- @helper InstructionsFor(string propertyName){
-    
-  
-
-    if (string.IsNullOrEmpty(propertyName))
-    {
-        throw new ArgumentNullException("Property");
-    }
-
-    PropertyInfo property = Labores.Web.Extensions.ReflectionExtensions.GetPropertyInfo(Html.ViewData.ModelMetadata.ModelType, propertyName);
-    if (property == null)
-    {
-        throw new ArgumentException("Property does not exist on Model", propertyName);
-    }
-
-    Labores.Web.Attributes.InstructionsAttribute instructionAtt = property.GetCustomAttribute<Labores.Web.Attributes.InstructionsAttribute>();
-    if (instructionAtt == null)
-    {
-        throw new ArgumentException("Instructions attribute does not exist on Model", propertyName);
-    }
-
-     string guid = Guid.NewGuid().ToString("N");
-      string idInstructions=string.Format("instructions_{0}_{1}", propertyName, guid);
-      string idClickable=string.Format("instructions_{0}_{1}_Click", propertyName, guid);
-      
-      
-      
-    <div id="@idInstructions" class="instructions">
-        @instructionAtt.Instructions
-     </div>
-     <a id="@idClickable" href="">
-         Instructions
-     </a>
- using (Html.BeginScriptContext())
+ @helper Prueba(string idInstructions,string idClickable){
+    using (Html.BeginScriptContext())
             {
                 System.Text.StringBuilder scriptConstructor = new System.Text.StringBuilder();
                 scriptConstructor.AppendLine();
@@ -64,5 +32,4 @@
 
                 Html.AddScriptBlock(scriptConstructor.ToString());
             }
-    
  }
